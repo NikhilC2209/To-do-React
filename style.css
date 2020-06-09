@@ -8,6 +8,10 @@
 	font-family: head;
 }
 
+:root {
+	--length: 0vw;
+}
+
 * {
 	padding: 0;
 	margin: 0;
@@ -76,7 +80,7 @@
 	width: 40%;
 	margin-top: 40px;
 	background: white;
-	max-height: 300px;
+	max-height: 200px;
 	overflow: auto;
 }
 
@@ -141,4 +145,95 @@
 .refresh:hover #refresh{
 	transition: all 0.5s;
 	transform: rotate(180deg);
+}
+
+.bar {
+	border: 6px solid #b8e994;
+	background-color: #b8e994;
+	position: absolute;
+	right: 410px;
+	bottom: 60px;
+	height: 35px;
+	width: 40vw;
+	/*padding: 5px;*/
+	border-radius: 20px;
+	overflow: hidden;
+}
+
+.inner {
+	border-radius: 20px;
+	height: 25px;
+	width: 0vw;
+	background-image: linear-gradient(
+    rgb(43,194,83) 37%,
+    rgb(84,240,84) 69%
+  );
+	box-shadow: 
+    inset 0 2px 9px  rgba(255,255,255,0.3),
+    inset 0 -2px 6px rgba(0,0,0,0.4);
+    animation: move 2s linear;
+    animation-fill-mode: forwards;
+}
+
+.inner::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  border-radius: 20px;
+  background-image: linear-gradient(
+    -45deg, 
+    rgba(255, 255, 255, .2) 25%, 
+    transparent 25%, 
+    transparent 50%, 
+    rgba(255, 255, 255, .2) 50%, 
+    rgba(255, 255, 255, .2) 75%, 
+    transparent 75%, 
+    transparent
+  );
+  z-index: 1;
+  background-size: 50px 50px;
+  overflow: hidden;
+  animation: roll 2s linear, back 2s linear infinite;
+  animation-fill-mode: forwards;
+}
+
+.percent {
+	position: absolute;
+  	bottom: 64px; right: 420px;
+	font-family: texts;
+	font-size: 19px;
+	font-weight: bolder;
+	color: #2c2c54;
+}
+
+@keyframes move {
+	0% {
+		width: 0vw;
+		overflow-x: hidden;
+	}
+
+	100% {
+		width: var(--length);
+		overflow-x: hidden;
+	}
+}
+
+@keyframes back {
+	0% {
+		background-position: 0 0;
+	}
+
+	100% {
+		background-position: 50px 50px;
+	}
+}
+
+@keyframes roll {
+	0% {
+		width: 0vw;
+	}
+
+	100% {
+		width: var(--length);
+	}
 }
