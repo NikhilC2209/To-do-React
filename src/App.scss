@@ -1,0 +1,30 @@
+@import './fonts/fonts.scss';
+
+body {
+  background: linear-gradient(120deg,#fd9644,#e15f41);
+  border: 1px solid transparent;
+  overflow-x: hidden;
+}
+
+.App {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  .header {
+    height: 20vh;
+    text-align: center;
+    color: yellow;
+    font-family: head;
+    font-size: 35px;
+    transition: all 1s;
+  }
+
+  .img {
+    width: 200px;
+    height: 200px;
+    /*transition: all 1s;*/
+  }
+
+}  

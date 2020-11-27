@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    max-height: 40vh;
+    width: 60vw;
+    flex-direction: column;
+    border: 2px solid black;
+    overflow-y: scroll;
+
+    .cont-child {
+        height: 150px;
+        width: 100%;
+        background-color: white;
+        padding-top: 30px;
+    }
+}
