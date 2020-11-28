@@ -8,13 +8,13 @@ export default function Input(props) {
     const [input, setInput] = useState('');
 
     const inpText = (e) => {
-        //todo = {task_name: e.target.value, completed: false};
         setInput(e.target.value);
     }
     const submitHandler = (e) => {
         e.preventDefault();
         //props.onSubmit(todo);
         props.onSubmit({
+            id: Math.random()*1000000,
             task_name: input,
             completed: false
         });
