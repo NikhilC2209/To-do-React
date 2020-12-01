@@ -1,40 +1,39 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import "./TodoList.scss"
 import Input from "../Input Bar/Input.js"
 import { BiTrash } from 'react-icons/bi';
 import { MdDone } from 'react-icons/md';
 import { IconContext } from "react-icons/lib";
 
+import db from '../../Firebase.js';
+
 export default function Tasks(props) {
 
-    const presentArray = [
-        {
-            id: Math.random()*1000000, task_name: "Hello", completed: false,
-        },
-        {
-            id: Math.random()*1000000, task_name: "Hello1", completed: false,
-        },
-        {
-            id: Math.random()*1000000, task_name: "Hello2", completed: true,
-        },
-        {
-            id: Math.random()*1000000, task_name: "Hello3", completed: false,
-        },
-        {
-            id: Math.random()*1000000, task_name: "Hello4", completed: true,
-        },
-        {
-            id: Math.random()*1000000, task_name: "Hello5", completed: false,
-        },
-    ]
+    const presentArray = []
+    useEffect(() => {
+        db.collection("Todos").get()
+        .then(snapshot => {
+            const tempArray = [...presentArray]
+            snapshot.docs.forEach(tasks => {
+                tempArray.push(tasks.data())
+            })
+            setTasksArray(tempArray);
+        })
+    }, [])
 
     const [tasksArray, setTasksArray] = useState(presentArray)
 
     const addTodo = (todo) => {
         const newTodos = [todo,...tasksArray]
-
+        const taskId = todo.task_name.split(' ');
+        db.collection("Todos").doc(taskId[0]).set(todo)
+        .then(function() {
+            console.log("Document successfully written!");
+        })
+        .catch(function(error) {
+            console.error("Error writing document: ", error);
+        });
         setTasksArray(newTodos);
-        console.log(newTodos);
     }
 
     const toggleTodo = (index) => {
@@ -46,6 +45,12 @@ export default function Tasks(props) {
 
     const deleteTodo = (index) => {
         const tasks = [...tasksArray]
+        const dbidArray = tasks[index].task_name.split(' ')
+        db.collection("Todos").doc(dbidArray[0]).delete().then(function() {
+            console.log("Document successfully deleted!");
+        }).catch(function(error) {
+            console.error("Error removing document: ", error);
+        });
         tasks.splice(index,1);
         setTasksArray(tasks);
     }
@@ -74,7 +79,7 @@ export default function Tasks(props) {
             <Input onSubmit = {addTodo} />
             <div className="container">
                 {tasksArray.map((item,index) => (
-                    <div className="cont-child">
+                    <div className="cont-child" key={item.id}>
                         {item.task_name}
                         <div>
                             {tickIcon(item,index)}
