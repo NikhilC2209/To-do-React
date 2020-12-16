@@ -1,7 +1,9 @@
 @import './fonts/fonts.scss';
 
 body {
-  background: linear-gradient(120deg,#fd9644,#e15f41);
+  //background: linear-gradient(120deg,#fd9644,#e15f41);
+  background-color: #a40606;
+  background-image: linear-gradient(315deg, #a40606 0%, #d98324 74%);
   border: 1px solid transparent;
   height: 99vh;
 }

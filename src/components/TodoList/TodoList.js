@@ -9,6 +9,20 @@ import db from '../../Firebase.js';
 
 export default function Tasks(props) {
 
+    function getFirebaseArray() {
+        const tempArray = [];
+        db.collection("Todos").get()
+        .then(snapshot => {
+            snapshot.docs.forEach(tasks => {
+                tempArray.push(tasks.data())
+            })
+            //setTasksArray(tempArray);
+        })
+        return tempArray;
+    }
+
+    const firebaseArray = getFirebaseArray();
+
     const presentArray = []
     useEffect(() => {
         db.collection("Todos").get()
@@ -40,6 +54,10 @@ export default function Tasks(props) {
         const toggleTasks = [...tasksArray];
         console.log(toggleTasks[index].completed);
         toggleTasks[index].completed = (toggleTasks[index].completed === false) ? true : false;
+        const taskId = toggleTasks[index].task_name.split(' ');
+        db.collection("Todos").doc(taskId[0]).update({
+            completed: (toggleTasks[index].completed === false) ? false : true
+        });
         setTasksArray(toggleTasks);
     }
 
@@ -74,9 +92,38 @@ export default function Tasks(props) {
                 </IconContext.Provider>
     }
 
+    const peekStatus = (status) => {
+        if(status === "Completed") {
+            const tasks = [...firebaseArray];
+            const compTasks = [];
+            tasks.map((item) => {
+                if(item.completed === true) {
+                    compTasks.push(item);
+                }
+            })  
+            setTasksArray(compTasks);
+        }
+
+        if(status === "Incomplete") {
+            const tasks = [...firebaseArray];
+            const incompTasks = [];
+            tasks.map((item) => {
+                if(item.completed === false) {
+                    incompTasks.push(item);
+                }
+            })  
+            setTasksArray(incompTasks);
+        }
+
+        if(status === "All") {
+            const allTasksArray = [...firebaseArray];
+            setTasksArray(allTasksArray);
+        }
+    }
+
     return (
         <div>
-            <Input onSubmit = {addTodo} />
+            <Input onSubmit = {addTodo} status = {peekStatus}/>
             <div className="container">
                 {tasksArray.map((item,index) => (
                     <div className="cont-child" key={item.id}>

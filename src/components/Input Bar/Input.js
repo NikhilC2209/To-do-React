@@ -19,14 +19,26 @@ export default function Input(props) {
             completed: false
         });
     }
+
+    const statusHandler = (e) => {
+        console.log("Clickeee");
+        console.log(e.target.value);
+        props.status(e.target.value);
+    }
+
     return (
         <form className = "wrapper">
-                <input onChange = {inpText} type = "text" className = "in-field" />
+                <input placeholder = "...Add a Task" onChange = {inpText} type = "text" className = "in-field" />
                 <button type = "submit" className = "in-btn" onClick = {submitHandler}>
                     <IconContext.Provider value = {{className: "add-icon"}}>
                         <GoDiffAdded />
                     </IconContext.Provider>    
                 </button>  
+                <select className = "dpdown" onChange = {statusHandler}>
+                    <option className = "dp-option" value = "All">All</option>
+                    <option className = "dp-option" value = "Completed">Completed</option>
+                    <option className = "dp-option" value = "Incomplete">Incomplete</option>
+                </select>
         </form>
     )
 }

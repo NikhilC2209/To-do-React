@@ -8,6 +8,10 @@
         height: 30px;
         width: 30vw;
         margin-right: -33px;
+        border: 1px solid white;
+        border-radius: 6px;
+        padding: 3px 10px;
+        outline: none;
     }
 
     .in-btn {
@@ -22,6 +26,17 @@
 
         .add-icon:hover {
             color: $back_gradient2;
+        }
+    }
+
+    .dpdown {
+        margin-left: 30px;
+        border-radius: 6px;
+        width: 120px;
+        padding: 8px;
+
+        .dpdown .dp-option {
+            color: red;
         }
     }
 }    
